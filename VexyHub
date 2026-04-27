@@ -1,0 +1,36 @@
+-- Vexy Loader (2 scripts)
+
+-- Proteção básica
+if not getgenv().VEXY_LOADER then
+    return
+end
+
+-- Key
+if getgenv().KEY ~= "VEXY-123" then
+    return
+end
+
+local scripts = {
+    "https://voidexternal.xyz/api/9fpzhjl1.lua",
+    "https://vss.pandadevelopment.net/virtual/file/cab8fb76e91046c8"
+}
+
+for i, url in ipairs(scripts) do
+    task.spawn(function()
+        local success, result = pcall(function()
+            return game:HttpGet(url)
+        end)
+
+        if success then
+            local ok, err = pcall(function()
+                loadstring(result)()
+            end)
+
+            if not ok then
+                warn("Erro ao executar script "..i..": "..err)
+            end
+        else
+            warn("Erro ao carregar script "..i)
+        end
+    end)
+end
